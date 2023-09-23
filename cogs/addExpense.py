@@ -31,7 +31,15 @@ class AddExpense(commands.Cog):
                 await addCategory(ctx, args)
             if [args[1], args[2], desc] in expenses[args[0]]:
                 return await ctx.send("Sorry, you added that expense previously")
-            expenses[args[0]].append([args[1], args[2], desc])
+            
+            try:
+                args[2]=float(args[2])
+            except Exception as e:
+                args[2]=0
+            
+            if args[2] <= 0.0 or args[2]==None:
+                return await ctx.send("Try again. The amount has to be just a number.")
+            expenses[args[0]].append([args[1], float(args[2]), desc])
             return await ctx.channel.send("Success")
         return await ctx.channel.send("You have to add in one of these formats\n1. add category\n2. add category date amount decsription(optional)")
        
