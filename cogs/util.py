@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import asyncio
+from .vars import *
 
 # a poll button that inherits from discord.ui.Button
 class PollButton(discord.ui.Button):
@@ -77,6 +78,23 @@ class Util(commands.Cog):
         '''
         view = Poll(ctx, question, args, int(mins) * 60)
         await ctx.send(question, view=view)
+    
+
+    @commands.command(name='test', # brief and description are what show up in the help menu
+                      brief='Make a poll that closes in a given amount of minutes',
+                      description='Vote on choices!'
+                      )
+    async def test(self, ctx: commands.Context):
+        '''
+        Creates a poll on discord, with the first argument being the question asked, and the following arguments being the choices for the poll
+        :param ctx: the character that denotes a command for this bot (?)
+        :param question: the question that is being polled
+        :param args: an arbitrary amount of choices to poll
+        :param mins: the number of minutes before the poll closes
+        :return: None
+        '''
+        count[0]+=1
+        await ctx.channel.send(f'The count is {count[0]}')
 
 
 # add this cog to the client
