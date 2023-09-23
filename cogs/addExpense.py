@@ -44,9 +44,7 @@ class AddExpense(commands.Cog):
         return await ctx.channel.send("You have to add in one of these formats\n1. add category\n2. add category date amount decsription(optional)")
        
 
-    @commands.command(name="show")
-    async def show(self, ctx: commands.Context):
-        return await ctx.send(expenses)
+    
 
 
 # add this cog to the client

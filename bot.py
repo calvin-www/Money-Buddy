@@ -19,6 +19,6 @@ async def main():
 	except Exception as e:
 		print(f'Failed to load extension cogs.')
 		print(str(e))
-	await bot.start('MTE1NDk3MTUzMTY2MzkxNzE3Ng.GDBG-k.Nmk3LAH3VjoIB-_7eKWA42uaxXJ0sHo6AWiE50')
+	await bot.start('MTE1NDk3MDUxNzMwMDg1NDgzNg.Gg5KIR.IroJdSLSFJzv1MHmCxu8CaCfKmw3GU9vpTpSIY')
 
 asyncio.run(main())
