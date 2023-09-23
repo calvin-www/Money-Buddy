@@ -1,91 +1,36 @@
-from typing import Optional
+import datetime
+from typing import Any, Optional, Union
 import discord
+from discord.colour import Colour
 from discord.ext import commands
 import asyncio
+
+from discord.types.embed import EmbedType
 from .vars import expenses
 
-# a poll button that inherits from discord.ui.Button
-class PollButton(discord.ui.Button):
-    message = ''
-    count = 0
-
-    # constructor for this poll button.
-    def __init__(self, message):
-        # calls the super constructor to give the label and style of the button
-        super().__init__(label=message, style=discord.ButtonStyle.primary)
-        self.message = message
-
-    # defines the behavior after a user clicks a poll button (returns user choice and increments poll)
-    async def callback(self, interaction: discord.Interaction):
-        # Use the interaction object to send a response message containing
-        # the user's choice and increment the poll
-        self.count += 1
-        user1 = interaction.user
-        await interaction.response.send_message(f'{user1.mention}\'s choice is {self.message}', ephemeral = True)
-
-# poll class that inherits from the discord.ui.View, basically a container for the poll buttons
-class Poll(discord.ui.View):
-
-    # constructor for this Poll
-    def __init__(self, ctx, question: str, args: list, timeout):
-        # timeout is how many seconds it takes before the on_timeout function runs
-        super().__init__(timeout=timeout)
-        self.question = question
+# make an expense report
+class ExpenseReport(discord.Embed):
+    def __init__(self, ctx, title: str, expenses: list):
+        super().__init__(title=title, color=discord.Color.teal())
         self.ctx = ctx
-        # creates a poll button for each choice inputted and adds them to the view
-        for choice in args:
-            self.add_item(PollButton(choice))
+        self.expenses = expenses
 
-    # function runs when this view times out
-    async def on_timeout(self):
-        await self.ctx.send(self.question)
-        # sends the votes for each choice
-        for item in self.children:
-            await self.ctx.send(f'{item.message}: {item.count} votes')
-
-class Report(discord.ui.View):
-    def __init__(self, ctx, category: str, timeout: float | None = 180):
-        super().__init__(timeout=timeout)
-        self.category = category
-        self.ctx = ctx
+        for choice in self.expenses:
+            cost: str = '{:20,.2f}'.format(float(choice[1]))
+            self.add_field(name=choice[0], value=f"${cost} - {choice[2]}", inline=False)
 
 
 # cogs let you put related commands and functions together under a class
 class Report(commands.Cog):
-
     def __init__(self, client):
         self.client = client
-
-
-    @commands.command(name='poll', # brief and description are what show up in the help menu
-                      brief='Make a poll that closes in a given amount of minutes',
-                      description='Vote on choices!'
-                      )
-    async def poll(self, ctx: commands.Context, mins: int, question: str, *args: str):
-        '''
-        Creates a poll on discord, with the first argument being the question asked, and the following arguments being the choices for the poll
-        :param ctx: the character that denotes a command for this bot (?)
-        :param question: the question that is being polled
-        :param args: an arbitrary amount of choices to poll
-        :param mins: the number of minutes before the poll closes
-        :return: None
-        '''
-        view = Poll(ctx, question, args, int(mins) * 60)
-        await ctx.send(question, view=view)
-    
 
     @commands.command(name='report')
     async def report(self, ctx: commands.Context, category: str):
         category_expenses = expenses[category]
 
-        all_expenses = "\n"
-        for expense in category_expenses:
-            # adds each item on its own line
-            all_expenses += f"\t• {expense[0]}: ${expense[1]} - {expense[2]} \n"
-
-        await ctx.send(category + all_expenses)
-
-
+        expense_report = ExpenseReport(ctx, category, category_expenses)
+        await ctx.send(embed=expense_report)
 
 
 # add this cog to the client
