@@ -12,7 +12,6 @@ async def on_ready():
 
 async def main():
 	try:
-		await bot.load_extension("cogs.util")
 		await bot.load_extension("cogs.addExpense")
 		await bot.load_extension("cogs.report")
 		print(f'Extension loaded!')
