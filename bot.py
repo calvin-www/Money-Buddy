@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import asyncio
+import cogs.category_select
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix = commands.when_mentioned_or(''), intents = intents)
@@ -12,12 +13,12 @@ async def on_ready():
 
 async def main():
 	try:
+		await bot.load_extension('cogs.category_select')
 		await bot.load_extension("cogs.util")
 		print(f'Extension loaded!')
 	except Exception as e:
 		print(f'Failed to load extension cogs.')
 		print(str(e))
-	await bot.start('MTE1NDk3MDUxNzMwMDg1NDgzNg.GHYVd8.MrkbMtYI3GSsmtss1KS-0dFgjSPZJcy2Oil-6c')
+	await bot.start('MTE1NDk3MTUzMTY2MzkxNzE3Ng.GDBG-k.Nmk3LAH3VjoIB-_7eKWA42uaxXJ0sHo6AWiE50')
 
 asyncio.run(main())
-
