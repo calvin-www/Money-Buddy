@@ -15,9 +15,14 @@ class ExpenseReport(discord.Embed):
         self.ctx = ctx
         self.expenses = expenses
 
+        total = 0.0
         for choice in self.expenses:
             cost: str = '{:20,.2f}'.format(float(choice[1]))
             self.add_field(name=choice[0], value=f"${cost} - {choice[2]}", inline=False)
+            total += float(choice[1])
+
+        formatted_total = '{:20,.2f}'.format(total)
+        self.add_field(name=f'TOTAL: {formatted_total}', value='')
 
 
 # cogs let you put related commands and functions together under a class
