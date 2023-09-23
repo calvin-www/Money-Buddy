@@ -1,18 +1,17 @@
 from discord.ext import commands
 import locale
 
-from .vars import expenses
+from .vars import*
 
 # expense report for a category
-def category_report(category: str):
-    if not category in expenses:
+def category_report(ctx:commands.Context, category: str):
+    if not category in expenses[ctx.author.id]:
         return f'"{category}" is not a category', 0
-
     locale.setlocale(locale.LC_ALL, '')
 
     report: str = f"**{category}**"
     total: float = 0
-    for idx, expense in enumerate(expenses[category]):
+    for idx, expense in enumerate(expenses[ctx.author.id][category]):
         report += f"\n\t{idx + 1}) {expense[0]}: {expense[2]} - {locale.currency(expense[1], grouping=True)}"
         total += expense[1]
     report += f"\n\t*TOTAL: {locale.currency(total, grouping=True)}*"
@@ -20,12 +19,12 @@ def category_report(category: str):
     return report, total
 
 # generates an expense report for all categories
-def all_expenses_report() -> str:
+def all_expenses_report(ctx:commands.Context) -> str:
     report: str = ""
     total: float = 0
 
-    for category in expenses:
-        cat_rep = category_report(category)
+    for category in expenses[ctx.author.id]:
+        cat_rep = category_report(ctx, category)
         report += f"\n{cat_rep[0]}"
         total += cat_rep[1]
 
@@ -40,10 +39,11 @@ class Report(commands.Cog):
 
     @commands.command()
     async def view(self, ctx: commands.Context, category: str | None):
+        print(category)
         if category:
-            await ctx.send(category_report(category)[0], ephemeral=True)           
+            await ctx.send(category_report(ctx, category)[0], ephemeral=True)           
         else:
-            await ctx.send(all_expenses_report(), ephemeral=True)
+            await ctx.send(all_expenses_report(ctx), ephemeral=True)
             
         
 
