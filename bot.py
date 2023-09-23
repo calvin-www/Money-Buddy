@@ -4,7 +4,7 @@ import asyncio
 import cogs.category_select
 
 intents = discord.Intents.all()
-bot = commands.Bot(command_prefix = commands.when_mentioned_or(''), intents = intents)
+bot = commands.Bot(command_prefix = commands.when_mentioned_or('~'), intents = intents)
 
 @bot.event
 async def on_ready():
@@ -14,7 +14,6 @@ async def on_ready():
 async def main():
 	try:
 		await bot.load_extension('cogs.category_select')
-		await bot.load_extension("cogs.util")
 		print(f'Extension loaded!')
 	except Exception as e:
 		print(f'Failed to load extension cogs.')
