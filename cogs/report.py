@@ -13,9 +13,7 @@ def category_report(category: str):
     report: str = f"**{category}**"
     total: float = 0
     for idx, expense in enumerate(expenses[category]):
-        print(idx, expense)
         report += f"\n\t{idx + 1}) {expense[0]}: {expense[2]} - {locale.currency(expense[1], grouping=True)}"
-        print(report)
         total += expense[1]
     report += f"\n\t*TOTAL: {locale.currency(total, grouping=True)}*"
 
