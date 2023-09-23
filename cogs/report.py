@@ -1,7 +1,8 @@
+from typing import Optional
 import discord
 from discord.ext import commands
 import asyncio
-from .vars import *
+from .vars import expenses
 
 # a poll button that inherits from discord.ui.Button
 class PollButton(discord.ui.Button):
@@ -42,25 +43,18 @@ class Poll(discord.ui.View):
         for item in self.children:
             await self.ctx.send(f'{item.message}: {item.count} votes')
 
+class Report(discord.ui.View):
+    def __init__(self, ctx, category: str, timeout: float | None = 180):
+        super().__init__(timeout=timeout)
+        self.category = category
+        self.ctx = ctx
+
+
 # cogs let you put related commands and functions together under a class
-class Util(commands.Cog):
+class Report(commands.Cog):
 
     def __init__(self, client):
         self.client = client
-
-
-    @commands.command(name='timer', # brief and description are what show up in the help menu
-                      brief='Get pinged after given number of seconds elapses',
-                      description='Get pinged after given number of seconds elapses',
-                      aliases=['remind']) # aliases give shorthands for the command
-    async def timer(self, ctx: commands.Context, time: int):
-        """
-        Make a random choice between the arguments given
-        :param ctx: provides context for command call (who called it, which channel was it called in, etc)
-        :param time: the number of seconds to count down from
-        """
-        await asyncio.sleep(time)
-        await ctx.send(f'{ctx.author.mention} your timer ran out! {time} seconds have passed.')
 
 
     @commands.command(name='poll', # brief and description are what show up in the help menu
@@ -80,23 +74,20 @@ class Util(commands.Cog):
         await ctx.send(question, view=view)
     
 
-    @commands.command(name='test', # brief and description are what show up in the help menu
-                      brief='Make a poll that closes in a given amount of minutes',
-                      description='Vote on choices!'
-                      )
-    async def test(self, ctx: commands.Context):
-        '''
-        Creates a poll on discord, with the first argument being the question asked, and the following arguments being the choices for the poll
-        :param ctx: the character that denotes a command for this bot (?)
-        :param question: the question that is being polled
-        :param args: an arbitrary amount of choices to poll
-        :param mins: the number of minutes before the poll closes
-        :return: None
-        '''
-        count[0]+=1
-        await ctx.channel.send(f'The count is {count[0]}')
+    @commands.command(name='report')
+    async def report(self, ctx: commands.Context, category: str):
+        category_expenses = expenses[category]
+
+        all_expenses = "\n"
+        for expense in category_expenses:
+            # adds each item on its own line
+            all_expenses += f"\t• {expense[0]}: ${expense[1]} - {expense[2]} \n"
+
+        await ctx.send(category + all_expenses)
+
+
 
 
 # add this cog to the client
 async def setup(client):
-    await client.add_cog(Util(client))
+    await client.add_cog(Report(client))
