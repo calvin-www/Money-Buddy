@@ -6,6 +6,9 @@ from discord import ui
 
 async def addCategory(ctx: commands.Context, args: list):
     expenses[ctx.author.id][args[0]]=[]
+    print(type(ctx.author.id))
+    update_db()
+    print(expenses)
     return await ctx.channel.send(f"You have successfully added the {args[0]} category")
 
 # cogs let you put related commands and functions together under a class
