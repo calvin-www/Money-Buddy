@@ -1,41 +1,51 @@
-import datetime
-from typing import Any, Optional, Union
-import discord
-from discord.colour import Colour
 from discord.ext import commands
-import asyncio
+import locale
 
-from discord.types.embed import EmbedType
 from .vars import expenses
 
-# make an expense report
-class ExpenseReport(discord.Embed):
-    def __init__(self, ctx, title: str, expenses: list):
-        super().__init__(title=title, color=discord.Color.teal())
-        self.ctx = ctx
-        self.expenses = expenses
+# expense report for a category
+def category_report(category: str):
+    if not category in expenses:
+        return f'"{category}" is not a category', 0
 
-        total = 0.0
-        for choice in self.expenses:
-            cost: str = '{:20,.2f}'.format(float(choice[1]))
-            self.add_field(name=choice[0], value=f"${cost} - {choice[2]}", inline=False)
-            total += float(choice[1])
+    locale.setlocale(locale.LC_ALL, '')
 
-        formatted_total = '{:20,.2f}'.format(total)
-        self.add_field(name=f'TOTAL: {formatted_total}', value='')
+    report: str = f"**{category}**"
+    total: float = 0
+    for expense in expenses[category]:
+        report += f"\n\t• {expense[0]}: {expense[2]} - {locale.currency(expense[1], grouping=True)}"
+        total += expense[1]
+    report += f"\n\t*TOTAL: {locale.currency(total, grouping=True)}*"
 
+    return report, total
 
-# cogs let you put related commands and functions together under a class
+# generates an expense report for all categories
+def all_expenses_report() -> str:
+    report: str = ""
+    total: float = 0
+
+    for category in expenses:
+        cat_rep = category_report(category)
+        report += f"\n{cat_rep[0]}"
+        total += cat_rep[1]
+
+    report += f"\n***TOTAL: {locale.currency(total, grouping=True)}***"
+
+    return report
+
+# cog
 class Report(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(name='report')
-    async def report(self, ctx: commands.Context, category: str):
-        category_expenses = expenses[category]
-
-        expense_report = ExpenseReport(ctx, category, category_expenses)
-        await ctx.send(embed=expense_report)
+    @commands.command()
+    async def view(self, ctx: commands.Context, category: str | None):
+        if category:
+            await ctx.send(category_report(category)[0], ephemeral=True)           
+        else:
+            await ctx.send(all_expenses_report(), ephemeral=True)
+            
+        
 
 
 # add this cog to the client
