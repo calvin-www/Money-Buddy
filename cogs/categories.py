@@ -11,7 +11,7 @@ class categories(commands.Cog):
     @commands.command(name="categories")
     async def categories(self, ctx: commands.Context,):
         await ctx.send('Your categories are:')
-        await ctx.send(" ".join(category_list))
+        await ctx.send(" ".join(expenses))
     
 
 
