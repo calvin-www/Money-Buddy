@@ -10,7 +10,7 @@ async def addCategory(ctx: commands.Context, args: list):
     return await ctx.channel.send(f"You have successfully added the {args[0]} category")
 
 # cogs let you put related commands and functions together under a class
-class AddExpense(commands.Cog):
+class Add(commands.Cog):
 
     def __init__(self, client):
         self.client = client
@@ -46,7 +46,8 @@ class AddExpense(commands.Cog):
             return await ctx.send(f"New {args[0]} expense added!")
             #self.bot.get_command('play'),
             #return await ctx.invoke(self.client.get_command('view'), query=''+args[0])
-        return await ctx.channel.send("You have to add in one of these formats\n1. add category\n2. add category date amount decsription(optional)")
+        return await ctx.send("```add [category]``` or ```add [category] [date(mm/dd/yy)] [amount spent(no $)] [title]```")
+
        
 
     
@@ -54,4 +55,4 @@ class AddExpense(commands.Cog):
 
 # add this cog to the client
 async def setup(client):
-    await client.add_cog(AddExpense(client))
+    await client.add_cog(Add(client))

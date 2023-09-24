@@ -13,12 +13,12 @@ async def on_ready():
 
 async def main():
 	try:
-		await bot.load_extension("cogs.addExpense")
+		await bot.load_extension("cogs.add")
 		await bot.load_extension("cogs.report")
 		await bot.load_extension("cogs.categories")
 		await bot.load_extension("cogs.edit")
 		await bot.load_extension("cogs.export")
-		await bot.load_extension("cogs.removeexpense")
+		await bot.load_extension("cogs.remove")
 		print(f'Extension loaded!')
 	except Exception as e:
 		print(f'Failed to load extension cogs.')
