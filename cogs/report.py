@@ -39,7 +39,6 @@ class Report(commands.Cog):
 
     @commands.command()
     async def view(self, ctx: commands.Context, category: str | None):
-        print(category)
         if category:
             await ctx.send(category_report(ctx, category)[0], ephemeral=True)           
         else:
