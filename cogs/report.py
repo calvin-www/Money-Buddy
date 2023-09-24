@@ -35,8 +35,9 @@ class Report(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command()
-    async def view(self, ctx: commands.Context, category: str | None):
+    @commands.command(name="view",
+                      brief="view all expenses or expenses for a specific category")
+    async def view(self, ctx: commands.Context, category: str = commands.parameter(default=None, description="(optional) category to view")):
         if category:
             await ctx.send(category_report(ctx, category)[0], ephemeral=True)           
         else:
