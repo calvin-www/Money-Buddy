@@ -15,6 +15,7 @@ async def main():
 	try:
 		await bot.load_extension("cogs.add")
 		await bot.load_extension("cogs.report")
+		await bot.load_extension("cogs.view")
 		await bot.load_extension("cogs.edit")
 		await bot.load_extension("cogs.export")
 		await bot.load_extension("cogs.remove")

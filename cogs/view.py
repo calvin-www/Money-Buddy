@@ -31,12 +31,13 @@ def all_expenses_report(ctx:commands.Context) -> str:
     return report
 
 # cog
-class Report(commands.Cog):
+class View(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command()
-    async def view(self, ctx: commands.Context, category: str | None):
+    @commands.command(name="view",
+                      brief="view all expenses or expenses for a specific category")
+    async def view(self, ctx: commands.Context, category: str = commands.parameter(default=None, description="(optional) category to ")):
         if category == "categories":
             await ctx.send('Your categories are:')
             await ctx.send('**' + (" | ".join(expenses[ctx.author.id]))+'**')
@@ -45,10 +46,7 @@ class Report(commands.Cog):
             await ctx.send(category_report(ctx, category)[0], ephemeral=True)           
         else:
             await ctx.send(all_expenses_report(ctx), ephemeral=True)
-            
-
-
 
 # add this cog to the client
 async def setup(client):
-    await client.add_cog(Report(client))
+    await client.add_cog(View(client))

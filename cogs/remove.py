@@ -10,8 +10,11 @@ class Remove(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command()
-    async def remove(self, ctx: commands.Context, category:str | None, index: int | None):
+    @commands.command(name='remove', 
+                      brief='removes either an expense or an entire category')
+    async def remove(self, ctx: commands.Context, 
+                     category: str = commands.parameter(default=None, description='the category to remove'), 
+                     index: int = commands.parameter(default=None, description='the expense number')):
         personal_expenses = expenses[ctx.author.id]
 
         if not category and not index:
