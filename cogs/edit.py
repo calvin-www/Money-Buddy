@@ -10,11 +10,14 @@ class edit(commands.Cog):
 
     @commands.command(name="edit")
     async def edit(self, ctx, *args:str):       
-        if len(args) == 1:
+        if len(args) == 0:
+            await ctx.send("```edit [category]``` or ```edit [category] [expense number]```")
+        elif len(args) == 1:
             cat = args[0]
             new_catagory =  await prompt1(self.client,ctx,'what would you like to change ' + cat + ' to?',timeout=20)
-            await ctx.send(new_catagory)
             expenses[ctx.author.id][new_catagory] = expenses[ctx.author.id].pop(cat)
+            await ctx.send('Successfully changed ' + cat + ' to '+ new_catagory+'!')
+            update_db()
         elif len(args) == 2:
             args = list(args)
             new_expense = await prompt2(self.client,ctx,'what would you like to change ' + str(expenses[ctx.author.id][str(args[0])][int(args[1]) - 1]) + ' to?', timeout=20 )
