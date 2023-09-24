@@ -1,7 +1,7 @@
 from discord.ext import commands
 import locale
 
-from .vars import*
+from .vars import *
 
 # expense report for a specifc category
 def category_report(ctx:commands.Context, category: str):

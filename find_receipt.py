@@ -4,8 +4,6 @@ from PIL import Image, ImageOps
 import io 
 import requests
 
-import urllib.request
-
 """
 # This bit of code is a little stupid an isn't necessary
 def silly_error(image):
@@ -40,18 +38,6 @@ def read_receipt_url(url):
     return text
 
 
-def read_receipt(image_name):
-
- 
-    # Open the image file
-    image = Image.open(r'/Users/eitfe/Vs_Code/Hackathon/' +image_name)
-    
-    image = ImageOps.exif_transpose(image)
-    # image.show()
-    # Perform OCR using PyTesseract
-    text = pytesseract.image_to_string(image,config='--psm 4')
-    # text=silly_error(image)
-    return text
 
 # These are two images that work when I've downloaded them
 # text=read_receipt('receipt_real.png')

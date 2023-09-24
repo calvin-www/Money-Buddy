@@ -51,6 +51,7 @@ async def on_message(message):
 		expenses[ctx.author.id][category].append([date, total, desc])
 		update_db()
 		return await ctx.channel.send(f"New {args[0]} expense added!")
+	await bot.process_commands(message)
        
 		
 

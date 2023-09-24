@@ -11,7 +11,6 @@ with open("cogs/db.JSON", "r") as jsonFile:
 for key,value in data.items():
     expenses[int(key)] = value
 
-
 #updates the json map whenever called (preferably after every function that mutates expense)
 def update_db():
     jsonfile = open('cogs/db.JSON', mode = 'w+')
