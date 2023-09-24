@@ -32,14 +32,12 @@ async def on_message(message):
 		category = args[0]
 		desc = ""
 		ctx = message
-		print(args)
 		if len(args)>=2:
 				desc = " ".join(args[1:])
 		if category not in expenses[ctx.author.id]:
 				await addCategory(ctx, args)
 		if [date, total, desc] in expenses[ctx.author.id][category]:
 				return await message.channel.send("Sorry, you added that expense previously")
-		print("2")
 		try:
 				total=float(total)
 		except Exception as e:
@@ -47,7 +45,6 @@ async def on_message(message):
 		
 		if total <= 0.0:
 				return await message.channel.send("Try again. The amount has to be just a number.")
-		print("3")
 		expenses[ctx.author.id][category].append([date, total, desc])
 		update_db()
 		return await ctx.channel.send(f"New {args[0]} expense added!")
