@@ -3,11 +3,6 @@ import pytesseract
 from PIL import Image, ImageOps
 import urllib.request
 
-
-
-
-
-
 """
 # This bit of code is a little stupid an isn't necessary
 def silly_error(image):
