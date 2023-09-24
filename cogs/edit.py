@@ -8,7 +8,7 @@ class Edit(commands.Cog):
     def __init__(self,client):
         self.client = client
 
-    @commands.command(name="edit")
+    @commands.command(name="edit", brief="- edit an exisiting category or expense")
     async def edit(self, ctx, *args:str):       
         if len(args) == 0:
             await ctx.send("```edit [category]``` or ```edit [category] [expense number]```")

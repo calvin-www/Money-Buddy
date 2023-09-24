@@ -36,9 +36,13 @@ class View(commands.Cog):
         self.client = client
 
     @commands.command(name="view",
-                      brief="view all expenses or expenses for a specific category")
+                      brief="- view all expenses, a category's expenses, or all categories")
     async def view(self, ctx: commands.Context, category: str = commands.parameter(default=None, description="(optional) category to ")):
-        if category:
+        if category == "categories":
+            await ctx.send('Your categories are:')
+            await ctx.send('**' + (" | ".join(expenses[ctx.author.id]))+'**')
+            return None 
+        elif category:
             await ctx.send(category_report(ctx, category)[0], ephemeral=True)           
         else:
             await ctx.send(all_expenses_report(ctx), ephemeral=True)

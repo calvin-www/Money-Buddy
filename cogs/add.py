@@ -15,7 +15,7 @@ class Add(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(name='add')
+    @commands.command(name='add',brief="- adds a new category or expense")
     async def add(self, ctx: commands.Context, *args: str):
         args = list(args)
         
