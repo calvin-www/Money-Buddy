@@ -6,7 +6,7 @@ import asyncio
 from .vars import*
 
 # cog
-class RemoveExpense(commands.Cog):
+class Remove(commands.Cog):
     def __init__(self, client):
         self.client = client
 
@@ -63,4 +63,4 @@ class RemoveExpense(commands.Cog):
 
 # add this cog to the client
 async def setup(client):
-    await client.add_cog(RemoveExpense(client))
+    await client.add_cog(Remove(client))

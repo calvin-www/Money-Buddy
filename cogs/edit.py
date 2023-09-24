@@ -4,7 +4,7 @@ import asyncio
 from .vars import *
 from discord import ui
 
-class edit(commands.Cog):
+class Edit(commands.Cog):
     def __init__(self,client):
         self.client = client
 
@@ -57,4 +57,4 @@ async def prompt2(client, ctx, message: str, timeout: int):
 
 
 async def setup(client):
-    await client.add_cog(edit(client))
+    await client.add_cog(Edit(client))
