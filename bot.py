@@ -23,5 +23,6 @@ async def main():
 		print(f'Failed to load extension cogs.')
 		print(str(e))
 	await bot.start('MTE1NDk3MTUzMTY2MzkxNzE3Ng.GDBG-k.Nmk3LAH3VjoIB-_7eKWA42uaxXJ0sHo6AWiE50')
+	
 
 asyncio.run(main())

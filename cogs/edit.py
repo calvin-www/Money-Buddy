@@ -32,8 +32,7 @@ class Edit(commands.Cog):
                 update_db()
                 await ctx.send("Successfully changed to " + str(new_expense)+ '!')
         else:
-            await ctx.send('please format yor edit request as edit [catagory] or edit [catagory] [# of expense]')
-
+            await ctx.send('please format yor edit request as edit [category] or edit [category] [# of expense]')
 
 async def prompt1(client, ctx, message: str, timeout: int):
     await ctx.send(message)
