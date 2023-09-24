@@ -6,9 +6,7 @@ from discord import ui
 
 async def addCategory(ctx: commands.Context, args: list):
     expenses[ctx.author.id][args[0]]=[]
-    print(type(ctx.author.id))
     update_db()
-    print(expenses)
     return await ctx.channel.send(f"You have successfully added the {args[0]} category")
 
 # cogs let you put related commands and functions together under a class
@@ -43,7 +41,7 @@ class AddExpense(commands.Cog):
             if args[2] <= 0.0 or args[2]==None:
                 return await ctx.send("Try again. The amount has to be just a number.")
             expenses[ctx.author.id][args[0]].append([args[1], float(args[2]), desc])
-            print(expenses[ctx.author.id])
+            update_db()
             return await ctx.channel.send("Success")
         return await ctx.channel.send("You have to add in one of these formats\n1. add category\n2. add category date amount decsription(optional)")
        

@@ -8,14 +8,12 @@ def category_report(ctx:commands.Context, category: str):
     if not category in expenses[ctx.author.id]:
         return f'"{category}" is not a category', 0
     locale.setlocale(locale.LC_ALL, '')
-
     report: str = f"**{category}**"
     total: float = 0
     for idx, expense in enumerate(expenses[ctx.author.id][category]):
         report += f"\n\t{idx + 1}) {expense[0]}: {expense[2]} - {locale.currency(expense[1], grouping=True)}"
         total += expense[1]
     report += f"\n\t*TOTAL: {locale.currency(total, grouping=True)}*"
-
     return report, total
 
 # generates an expense report for all categories
@@ -39,7 +37,6 @@ class Report(commands.Cog):
 
     @commands.command()
     async def view(self, ctx: commands.Context, category: str | None):
-        print(category)
         if category:
             await ctx.send(category_report(ctx, category)[0], ephemeral=True)           
         else:

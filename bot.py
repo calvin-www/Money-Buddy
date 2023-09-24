@@ -17,6 +17,7 @@ async def main():
 		await bot.load_extension("cogs.addExpense")
 		await bot.load_extension("cogs.report")
 		await bot.load_extension("cogs.categories")
+		await bot.load_extension("cogs.edit")
 		print(f'Extension loaded!')
 	except Exception as e:
 		print(f'Failed to load extension cogs.')
