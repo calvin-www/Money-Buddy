@@ -1,6 +1,7 @@
 from typing import Optional
 from discord.ext import commands
 import discord
+import asyncio
 
 from .vars import*
 
@@ -22,10 +23,30 @@ class RemoveExpense(commands.Cog):
             return
 
         if not index:
-            # removes the entire category
-            del personal_expenses[category]
-            update_db()
-            await ctx.send(f'{category} has been removed.')
+            await ctx.send(f'remove {category}? [y]=yes/[any]=no')
+
+            confirmation = ""
+
+            def confirm(msg):
+                nonlocal confirmation
+                confirmation = msg.content
+                return msg.content != None
+            
+            resp = None
+
+            try:
+                resp: bool = await self.client.wait_for('message', timeout=10, check=confirm)
+            except asyncio.TimeoutError:
+                await ctx.send('timeout')
+
+            # removes the category
+            if resp:
+                if confirmation == 'y':
+                    del personal_expenses[category]
+                    update_db()
+                    await ctx.send(f'{category} has been removed.')
+                else:
+                    await ctx.send('remove cancelled')
 
         # removes an item
         category_expenses: list = personal_expenses[category]
