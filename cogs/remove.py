@@ -11,7 +11,7 @@ class Remove(commands.Cog):
         self.client = client
 
     @commands.command(name='remove', 
-                      brief='removes either an expense or an entire category')
+                      brief='- removes either an expense or an entire category')
     async def remove(self, ctx: commands.Context, 
                      category: str = commands.parameter(default=None, description='the category to remove'), 
                      index: int = commands.parameter(default=None, description='the expense number')):

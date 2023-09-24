@@ -36,7 +36,7 @@ class View(commands.Cog):
         self.client = client
 
     @commands.command(name="view",
-                      brief="view all expenses or expenses for a specific category")
+                      brief="- view all expenses, a category's expenses, or all categories")
     async def view(self, ctx: commands.Context, category: str = commands.parameter(default=None, description="(optional) category to ")):
         if category == "categories":
             await ctx.send('Your categories are:')
