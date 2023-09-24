@@ -43,6 +43,9 @@ class AddExpense(commands.Cog):
             expenses[ctx.author.id][args[0]].append([args[1], float(args[2]), desc])
             update_db()
             return await ctx.channel.send("Success")
+            return await ctx.send(f"New {args[0]} expense added!")
+            #self.bot.get_command('play'),
+            #return await ctx.invoke(self.client.get_command('view'), query=''+args[0])
         return await ctx.channel.send("You have to add in one of these formats\n1. add category\n2. add category date amount decsription(optional)")
        
 

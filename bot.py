@@ -18,10 +18,12 @@ async def main():
 		await bot.load_extension("cogs.report")
 		await bot.load_extension("cogs.categories")
 		await bot.load_extension("cogs.edit")
+		await bot.load_extension("cogs.export")
+		await bot.load_extension("cogs.removeexpense")
 		print(f'Extension loaded!')
 	except Exception as e:
 		print(f'Failed to load extension cogs.')
 		print(str(e))
-	await bot.start('MTE1NDk3MTUzMTY2MzkxNzE3Ng.GDBG-k.Nmk3LAH3VjoIB-_7eKWA42uaxXJ0sHo6AWiE50')
+	await bot.start('MTE1NDk4MTk2MzY0NDU0NzEzMg.GBTMb8.OZGGh8IBy-lkwNgDN3XHHt2AlIxZhaYUsFwfdU')
 
 asyncio.run(main())
