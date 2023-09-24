@@ -2,8 +2,12 @@ import discord
 from discord.ext import commands
 import asyncio
 from collections import defaultdict
+from cogs.addExpense import addCategory
+from find_receipt import *
+from cogs.vars import *
 
 intents = discord.Intents.all()
+intents.message_content = True
 bot = commands.Bot(command_prefix = commands.when_mentioned_or(''), intents = intents)
 
 
@@ -11,6 +15,43 @@ bot = commands.Bot(command_prefix = commands.when_mentioned_or(''), intents = in
 async def on_ready():
 	print(f'Logged in as {bot.user} (ID: {bot.user.id})')
 	print('------')
+
+@bot.event
+async def on_message(message):
+	if message.attachments:
+		if len(message.content)==0:
+			return await message.channel.send("When uplpoading a reciept to scan, you have to send the category and description(optional) in that order.")
+		
+		url = message.attachments[0].url
+		text = read_receipt_url(url)
+		total = find_total(text)
+		date = find_date(text)
+		
+		args = message.content.split()
+		category = args[0]
+		desc = ""
+		ctx = message
+		print(args)
+		if len(args)>=2:
+				desc = " ".join(args[1:])
+		if category not in expenses[ctx.author.id]:
+				await addCategory(ctx, args)
+		if [date, total, desc] in expenses[ctx.author.id][category]:
+				return await message.channel.send("Sorry, you added that expense previously")
+		print("2")
+		try:
+				total=float(total)
+		except Exception as e:
+				total=0
+		
+		if total <= 0.0:
+				return await message.channel.send("Try again. The amount has to be just a number.")
+		print("3")
+		expenses[ctx.author.id][category].append([date, total, desc])
+		update_db()
+		return await ctx.channel.send(f"New {args[0]} expense added!")
+       
+		
 
 async def main():
 	try:
@@ -23,6 +64,6 @@ async def main():
 	except Exception as e:
 		print(f'Failed to load extension cogs.')
 		print(str(e))
-	await bot.start('MTE1NDk4MTk2MzY0NDU0NzEzMg.GBTMb8.OZGGh8IBy-lkwNgDN3XHHt2AlIxZhaYUsFwfdU')
+	await bot.start('MTE1NDk3MDUxNzMwMDg1NDgzNg.GtAn7y.PfL8d4cBj0va9WpJVNb0Yx93UPULaLoPeWfyiM')
 
 asyncio.run(main())

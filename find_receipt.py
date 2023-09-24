@@ -1,12 +1,10 @@
 import re
 import pytesseract
 from PIL import Image, ImageOps
+import io 
+import requests
+
 import urllib.request
-
-
-
-
-
 
 """
 # This bit of code is a little stupid an isn't necessary
@@ -22,8 +20,17 @@ def read_receipt_url(url):
 
  
     # Open the image file
-    urllib.request.urlretrieve(url, "receipt.png")
-    image = Image.open("receipt.png")
+    #urllib.request.urlretrieve(url, "receipt.png")
+    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+
+    r = requests.get(url, headers=headers)
+
+    img = Image.open(io.BytesIO(r.content))
+    # # print( type(img) ) # <class 'PIL.JpegImagePlugin.JpegImageFile'>
+    text = pytesseract.image_to_string(img)
+    return text
+    image = Image.open(url)
+    #image = Image.
     
     image = ImageOps.exif_transpose(image)
     # image.show()
@@ -51,7 +58,6 @@ def read_receipt(image_name):
 # text=read_receipt('good_receipt.jpg')
 
 # This illustrates that we can do it with a url from online
-text=read_receipt_url('https://i.pinimg.com/550x/5d/02/c9/5d02c94582f07a3b07e60647723eadc3.jpg')
 
 
 
@@ -103,11 +109,6 @@ def find_date(text):
     else:
         date=None
     return date
-
-total=find_total(text)
-print(total)
-date=find_date(text)
-print(date)
 
 
 
