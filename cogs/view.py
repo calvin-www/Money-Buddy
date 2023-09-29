@@ -52,5 +52,10 @@ class View(commands.Cog):
         else:
             await ctx.send(all_expenses_report(ctx), ephemeral=True)
 
+    @commands.command(name="love",
+                      brief="- money buddy loves you too")
+    async def love(self, ctx: commands.Context, *args: str):
+        await ctx.send("I love you too :)")
+
 async def setup(client):
     await client.add_cog(View(client))

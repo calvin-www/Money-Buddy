@@ -66,6 +66,6 @@ async def main():
 		print(f'Failed to load extension cogs.')
 		print(str(e))
 	#token of specific bot
-	await bot.start('MTE1NDk4MTk2MzY0NDU0NzEzMg.GBTMb8.OZGGh8IBy-lkwNgDN3XHHt2AlIxZhaYUsFwfdU')
+	await bot.start('MTE1NDk4MTk2MzY0NDU0NzEzMg.GKHxMO.nS2A1i8aixeBfVCT_QAYAwQ3rLawGHRMkK5Ero')
 
 asyncio.run(main())
